@@ -18,7 +18,7 @@ const LoginPage = () => {
     if(!/\S+@\S+\.\S+/.test(formData.email))return toast.error("Invalid email format");
     if(!formData.password)return toast.error("Password is required");
     return true;
-}
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     const sucess = validateForm();
