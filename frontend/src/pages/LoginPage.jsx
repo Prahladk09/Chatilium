@@ -11,6 +11,13 @@ const LoginPage = () => {
       email: "",
       password: "",
   });
+  const [touched, setTouched] = useState({
+    email: false,
+    password: false,
+  });
+  const handleBlur = (field) => {
+    setTouched({...touched,  [field]: true });
+  }
   const { login, isLoggingIn } = useAuthStore();
 
   const validateForm = () => {
@@ -49,14 +56,15 @@ const LoginPage = () => {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-base-content/40" />
+                  <Mail className="h-5 w-5 text-base-content/40 z-10" />
                 </div>
                 <input
                   type="email"
-                  className={`input input-bordered w-full pl-10`}
+                  className={`input w-full pl-10 ${touched.email && !formData.email.trim() ? 'border-red-500' : 'input-bordered'}`}
                   placeholder="you@example.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onBlur={() => handleBlur('email')}
                 />
               </div>
             </div>
@@ -67,13 +75,14 @@ const LoginPage = () => {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-base-content/40" />
+                  <Lock className="h-5 w-5 text-base-content/40 z-10" />
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
-                  className={`input input-bordered w-full pl-10`}
+                  className={`input w-full pl-10 ${touched.password && !formData.password.trim() ? 'border-red-500' : 'input-bordered'}`}
                   placeholder="••••••••"
                   value={formData.password}
+                  onBlur={() => handleBlur('password')}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 />
                 <button

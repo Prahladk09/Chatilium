@@ -12,6 +12,14 @@ const SignUpPage = () => {
         email: "",
         password: "",
     });
+    const [touched, setTouched] = useState({
+        fullName: false,
+        email: false,
+        password: false,
+    });
+    const handleBlur = (field) => {
+        setTouched({ ...touched, [field]: true });
+    };
     const { signUp, isSigningUp } = useAuthStore();
     const validateForm = () => {
         if(!formdata.fullName.trim())return toast.error("Full Name is required");
@@ -50,10 +58,10 @@ const SignUpPage = () => {
                         </label>
                         <div className="relative">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <User className="size-5 text-base-content/40" />
+                                <User className="size-5 text-base-content/40 z-10" />
                             </div>
-                            <input type="text" className={`input input-bordered w-full pl-10`} placeholder='Enter Name...'
-                            value={formdata.fullName} onChange={(e) => setFormdata({...formdata, fullName: e.target.value })}/>
+                            <input type="text" className={`input w-full pl-10 ${touched.fullName && !formdata.fullName.trim() ? 'border-red-500' : 'input-bordered'}`} 
+                            placeholder='Enter Name...' value={formdata.fullName} onChange={(e) => setFormdata({...formdata, fullName: e.target.value })} onBlur={() => handleBlur('fullName')} />
                         </div>
                     </div>
                     <div className="form-control">
@@ -62,10 +70,10 @@ const SignUpPage = () => {
                         </label>
                         <div className="relative">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <Mail className="size-5 text-base-content/40" />
+                                <Mail className="size-5 text-base-content/40 z-10" />
                             </div>
-                            <input type="email" className={`input input-bordered w-full pl-10`} placeholder='Enter Email...'
-                            value={formdata.email} onChange={(e) => setFormdata({...formdata, email: e.target.value })}/>
+                            <input type="email" className={`input w-full pl-10 ${touched.email && !formdata.email.trim() ? 'border-red-500' : 'input-bordered'}`} 
+                            placeholder='Enter Email...' value={formdata.email} onChange={(e) => setFormdata({...formdata, email: e.target.value })} onBlur={() => handleBlur('email')} />
                         </div>
                     </div>
                     <div className="form-control">
@@ -74,10 +82,10 @@ const SignUpPage = () => {
                         </label>
                         <div className="relative">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <Lock className="size-5 text-base-content/40" />
+                                <Lock className="size-5 text-base-content/40 z-10" />
                             </div>
-                            <input type={showPassword ? "text" : "password"} className={`input input-bordered w-full pl-10`} placeholder='......'
-                            value={formdata.password} onChange={(e) => setFormdata({...formdata, password: e.target.value })}/>
+                            <input type={showPassword ? "text" : "password"} className={`input w-full pl-10 ${touched.password && !formdata.password.trim() ? 'border-red-500' : 'input-bordered'}`} 
+                            placeholder='......' value={formdata.password} onChange={(e) => setFormdata({...formdata, password: e.target.value })} onBlur={() => handleBlur('password')} />
                             <button type='button' className='absolute inset-y-0 right-0 pr-3 flex items-center' onClick={() => setShowPassword(!showPassword)}>
                                 {showPassword ? (<EyeOff className="size-5 text-base-content/40" />) : (<Eye className="size-5 text-base-content/40" />)}
                             </button>
